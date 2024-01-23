@@ -4,13 +4,13 @@ class Soda:
 
     def __str__(self):
         if self.flavor:
-            return f"У вас газировка с {self.flavor} вкусом"
+            return f"У вас газировка со вкусом '{self.flavor}'"
         else:
             return "У вас обычная газировка"
 
+if __name__=="__main__":
+    soda1 = Soda("Клубника")
+    print(soda1)
 
-soda1 = Soda("клубничным")
-print(soda1)
-
-soda2 = Soda()
-print(soda2)
+    soda2 = Soda()
+    print(soda2)
