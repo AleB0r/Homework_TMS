@@ -1,34 +1,43 @@
-from collections import Counter
-
-
 def find_most_common_word(line):
     words = line.split()
 
     if not words:
         return None, 0
 
-    word_counts = Counter(words)
+    word_counts = {}
 
-    most_common_word, count = word_counts.most_common(1)[0]
+    for word in words:
+        if word in word_counts:
+            word_counts[word] += 1
+        else:
+            word_counts[word] = 1
+
+    most_common_word = None
+    count = 0
+
+    for word, word_count in word_counts.items():
+        if word_count > count:
+            most_common_word = word
+            count = word_count
 
     return most_common_word, count
 
 
-# Имя входного файла
+
 input_file = "input.txt"
-# Имя выходного файла
+
 output_file = "output.txt"
 
-# Чтение текста из файла
+
 with open(input_file, 'r', encoding='utf-8') as file:
-    # Создание выходного файла
+
     with open(output_file, 'w', encoding='utf-8') as output:
-        # Чтение каждой строки из входного файла
+
         for line in file:
-            # Очистка строки от лишних символов (пробелов, знаков пунктуации)
+
             clean_line = line.strip()
 
-            # Поиск наиболее часто встречающегося слова и его счетчика
+
             most_common_word, count = find_most_common_word(clean_line)
 
             if most_common_word is None:
