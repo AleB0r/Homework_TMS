@@ -1,53 +1,80 @@
 import os
 import shutil
+import sys
 
 
-def sort_files_by_extension(folder_path):
-    files = os.listdir(folder_path)
+def get_os_name():
+    return os.name
 
-    extensions = set(os.path.splitext(file)[1] for file in files)
-    for extension in extensions:
-        os.makedirs(os.path.join(folder_path, extension.lstrip('.')), exist_ok=True)
 
+def get_current_directory():
+    return os.getcwd()
+
+
+def sort_files_by_extension(directory):
+    files = os.listdir(directory)
+    extensions = set()
+
+    # Собираем список уникальных расширений файлов
     for file in files:
-        extension = os.path.splitext(file)[1].lstrip('.')
-        if extension:
-            source_path = os.path.join(folder_path, file)
-            destination_path = os.path.join(folder_path, extension, file)
-            shutil.move(source_path, destination_path)
+        if os.path.isfile(os.path.join(directory, file)):
+            _, extension = os.path.splitext(file)
+            extensions.add(extension)
+
+    # Создаем поддиректории для каждого расширения
+    for extension in extensions:
+        folder_name = extension[1:]  # Удаляем точку из расширения
+        folder_path = os.path.join(directory, folder_name)
+        os.makedirs(folder_path, exist_ok=True)
+
+    # Перемещаем файлы в соответствующие поддиректории
+    for file in files:
+        if os.path.isfile(os.path.join(directory, file)):
+            _, extension = os.path.splitext(file)
+            folder_name = extension[1:]  # Удаляем точку из расширения
+            folder_path = os.path.join(directory, folder_name)
+            file_path = os.path.join(directory, file)
+            shutil.move(file_path, folder_path)
+    return True
+
+def rename_file(directory, file_name, new_file_name):
+    file_path = os.path.join(directory, file_name)
+    new_file_path = os.path.join(directory, new_file_name)
+    os.rename(file_path, new_file_path)
+    return True
 
 
-def rename_file(file_path, new_name):
-    file_name = os.path.basename(file_path)
+def main():
+    if len(sys.argv) < 2:
+        print("Необходимо указать имя файла как аргумент командной строки.")
+        return
 
-    folder_path = os.path.dirname(file_path)
+    file_to_rename = sys.argv[1]
 
-    new_path = os.path.join(folder_path, new_name)
+    try:
+        # Вывод имени операционной системы
+        os_name = get_os_name()
+        print("Имя операционной системы:", os_name)
 
-    os.rename(file_path, new_path)
+        # Вывод текущей директории
+        current_directory = get_current_directory()
+        print("Текущая директория:", current_directory)
 
-    return new_path
+        # Переименование файла
+        new_file_name = "new_data.txt"
+        if rename_file(current_directory, file_to_rename, new_file_name) == True:
+            print(f"Файл {file_to_rename} был переименован в {new_file_name}.")
+
+        # Рассортировка файлов по расширениям
+        if sort_files_by_extension(current_directory) == True:
+            print("Файлы успешно рассортированы по расширениям.")
+    except FileNotFoundError:
+        print(f"Файл {file_to_rename} не найден.")
+    except Exception as e:
+        print(f"Произошла ошибка: {str(e)}")
 
 
-# Вывод имени операционной системы
-print("Имя операционной системы:", os.name)
 
-# Вывод пути к текущей папке
-print("Путь к текущей папке:", os.getcwd())
 
-folder_path = os.getcwd()
-
-sort_files_by_extension(folder_path)
-
-# Вывод информации о перемещенных файлах
-for root, dirs, files in os.walk(folder_path):
-    for dir in dirs:
-        dir_path = os.path.join(root, dir)
-        file_count = len(os.listdir(dir_path))
-        total_size = sum(os.path.getsize(os.path.join(dir_path, file)) for file in os.listdir(dir_path))
-        print(f"В папке {dir_path} перемещено {file_count} файлов, их суммарный размер - {total_size} байт")
-
-file_to_rename = os.path.join(folder_path, "txt", "data.txt")
-new_file_name = "data.txt"
-new_file_path = rename_file(file_to_rename, new_file_name)
-print(f"Файл {file_to_rename} был переименован в {new_file_path}")
+if __name__ == "__main__":
+    main()
