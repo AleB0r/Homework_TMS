@@ -1,8 +1,15 @@
+class Strategy:
+    def execute(self, num1, num2):
+        raise NotImplementedError("Subclasses must implement execute method")
+
+
 class Calculator:
     def __init__(self):
         self.strategy = None
 
     def set_strategy(self, strategy):
+        if not isinstance(strategy, Strategy):
+            raise TypeError("Strategy must be an instance of class Strategy")
         self.strategy = strategy
 
     def calculate(self, num1, num2):
@@ -12,22 +19,22 @@ class Calculator:
         return self.strategy.execute(num1, num2)
 
 
-class Addition:
+class Addition(Strategy):
     def execute(self, num1, num2):
         return num1 + num2
 
 
-class Subtraction:
+class Subtraction(Strategy):
     def execute(self, num1, num2):
         return num1 - num2
 
 
-class Multiplication:
+class Multiplication(Strategy):
     def execute(self, num1, num2):
         return num1 * num2
 
 
-class Division:
+class Division(Strategy):
     def execute(self, num1, num2):
         if num2 == 0:
             raise ValueError("Division by zero is not allowed")

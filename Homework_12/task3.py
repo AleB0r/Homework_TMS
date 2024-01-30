@@ -11,24 +11,26 @@ class Bus:
         for passenger in passengers:
             if self.available_seats > 0:
                 self.passenger_list.append(passenger)
-                self.seats_in_bus[passenger] = self.max_seating_capacity - self.available_seats + 1
+                self.seats_in_bus[self.max_seating_capacity - self.available_seats + 1] = passenger
                 self.available_seats -= 1
             else:
                 print("No available seats on the bus.")
 
     def disembark(self, *passengers):
         for passenger in passengers:
-            if passenger in self.passenger_list:
-                self.passenger_list.remove(passenger)
-                seat = self.seats_in_bus.pop(passenger, None)
-                if seat is not None:
+            removed_passengers = [p for p in self.passenger_list if p == passenger]
+            if removed_passengers:
+                for p in removed_passengers:
+                    self.passenger_list.remove(p)
+                    seat = list(self.seats_in_bus.keys())[list(self.seats_in_bus.values()).index(p)]
+                    self.seats_in_bus.pop(seat, None)
                     self.available_seats += 1
-                    self._update_seats_in_bus()
+                self._update_seats_in_bus()
             else:
                 print(f"Passenger {passenger} not found on the bus.")
 
     def _update_seats_in_bus(self):
-        self.seats_in_bus = {passenger: i + 1 for i, passenger in enumerate(self.passenger_list)}
+        self.seats_in_bus = {i + 1: passenger for i, passenger in enumerate(self.passenger_list)}
 
     def increase_speed(self, value):
         self.speed = min(self.speed + value, self.max_speed)
@@ -49,13 +51,13 @@ class Bus:
 
 
 if __name__ == "__main__":
-    bus = Bus(60, 2, 80)
-    bus.embark("Ivanov", "Petrov", "Sidorov")
+    bus = Bus(60, 3, 80)
+    bus.embark("Ivanov", "Petrov", "Ivanov")
     print(bus.passenger_list)
     print(bus.available_seats)
     print(bus.seats_in_bus)
 
-    bus.disembark("Petrov")
+    bus.disembark("Ivanov")
     print(bus.passenger_list)
     print(bus.available_seats)
     print(bus.seats_in_bus)
@@ -74,5 +76,7 @@ if __name__ == "__main__":
 
     bus += "Smirnov"
     print(bus.passenger_list)
+    print(bus.seats_in_bus)
     bus -= "Ivanov"
     print(bus.passenger_list)
+    print(bus.seats_in_bus)
