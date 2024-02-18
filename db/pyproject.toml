@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "pythonproject9"
+name = "pythonproject2"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["AleB0r <sasha2014993@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
