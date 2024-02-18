@@ -16,19 +16,17 @@ class DBrepository(Repository):
         self.session.add(book)
         self.session.commit()
 
-    def update_book(self, index: int, book_name: str):
-        book = self.session.query(Book).get(index)
-        book.name = book_name
-        self.session.commit()
-
-    def delete_book(self, index: int):
-        book = self.session.query(Book).get(index)
-        if book:
-            self.session.delete(book)
+    def update_book(self, book: str, book_name: str):
+        books = self.session.query(Book).filter(Book.name.ilike(book)).all()
+        if books:
+            for book in books:
+                book.name = book_name
             self.session.commit()
-            print("Book deleted successfully.")
-        else:
-            print("Book not found.")
+
+    def delete_book(self, book: str):
+        book = self.session.query(Book).filter(Book.name == book).first()
+        self.session.delete(book)
+        self.session.commit()
 
     def show_authors(self):
         return self.session.execute(sa.select(Author)).fetchall()
@@ -40,3 +38,8 @@ class DBrepository(Repository):
 
     def find_book(self, book_name: str):
         return self.session.query(Book).filter(Book.name.ilike(f"%{book_name}%")).all()
+
+    def get_book_by_exact_name(self, book_name: str):
+        query = self.session.query(Book).filter(Book.name == book_name).first()
+        return query
+

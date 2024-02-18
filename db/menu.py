@@ -76,18 +76,16 @@ class Menu:
         print("Books:")
         for book in books:
             print(book)
-        check = False
-        while not check:
-            try:
-                book_id = int(input(f"Choice book number (1-{books_count}): "))
-                if book_id < 1 or book_id > books_count:
-                    print("Invalid book number. Please try again.")
-                else:
-                    check = True
-            except ValueError:
-                print("Invalid input. Please enter a number.")
-        new_book_name = input("Enter new book name: ")
-        return self.repository.update_book(book_id, new_book_name)
+        while True:
+            choice_book = input("Enter book name: ")
+            book = self.repository.get_book_by_exact_name(choice_book)
+            if book:
+                new_book_name = input("Enter new book name: ")
+                self.repository.update_book(choice_book, new_book_name)
+                print("Book name updated successfully.")
+                break
+            else:
+                print("No book found.")
 
     def delete_book(self):
         books = self.repository.show_all_books()
@@ -95,17 +93,14 @@ class Menu:
         print("Books:")
         for book in books:
             print(book)
-        check = False
-        while not check:
-            try:
-                book_id = int(input(f"Choice book number (1-{books_count}): "))
-                if book_id < 1 or book_id > books_count:
-                    print("Invalid book number. Please try again.")
-                else:
-                    check = True
-            except ValueError:
-                print("Invalid input. Please enter a number.")
-        return self.repository.delete_book(book_id)
+        while True:
+            choice_book = input("Enter book name: ")
+            book = self.repository.get_book_by_exact_name(choice_book)
+            if book:
+                return self.repository.delete_book(choice_book)
+            else:
+                print("No book found.")
+
 
     def show_authors(self):
         authors = self.repository.show_authors()

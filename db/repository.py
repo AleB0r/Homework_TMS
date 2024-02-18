@@ -29,3 +29,6 @@ class Repository(ABC):
     @abstractmethod
     def find_book(self, **kwargs):
         pass
+
+    def get_book_by_exact_name(self, **kwargs):
+        pass
