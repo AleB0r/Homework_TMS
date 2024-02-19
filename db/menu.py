@@ -71,11 +71,7 @@ class Menu:
         return self.repository.add_book(book_name, author_id)
 
     def update_book(self):
-        books = self.repository.show_all_books()
-        books_count = len(books)
-        print("Books:")
-        for book in books:
-            print(book)
+        self.show_all_books()
         while True:
             choice_book = input("Enter book name: ")
             book = self.repository.get_book_by_exact_name(choice_book)
@@ -88,11 +84,7 @@ class Menu:
                 print("No book found.")
 
     def delete_book(self):
-        books = self.repository.show_all_books()
-        books_count = len(books)
-        print("Books:")
-        for book in books:
-            print(book)
+        self.show_all_books()
         while True:
             choice_book = input("Enter book name: ")
             book = self.repository.get_book_by_exact_name(choice_book)

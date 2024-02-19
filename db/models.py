@@ -10,11 +10,6 @@ class Base(DeclarativeBase):
 class Book(Base):
     __tablename__ = "books"
 
-    def __init__(self, id=None, name=None, author_id=None):
-        self.id = id
-        self.name = name
-        self.author_id = author_id
-
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str]
     author_id: Mapped[int] = mapped_column(sa.ForeignKey("authors.id"))
