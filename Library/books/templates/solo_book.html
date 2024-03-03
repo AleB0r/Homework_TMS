@@ -1,0 +1,26 @@
+
+{% extends 'home/home.html' %}
+
+{% block content %}
+
+<h2>Your desired book</h2>
+
+<ul>
+    {% if f_book %}
+        {% for book in f_book %}
+            <li>{{ book }}</li>
+        {% endfor %}
+    {% endif %}
+</ul>
+
+
+<form class="book-form" action="{{ url_for('home') }}" method="GET">
+    <button type="submit">Go to Menu</button>
+</form>
+
+
+<form class="book-form" action="{{ url_for('books.find_book') }}" method="GET">
+    <button type="submit">Search for more</button>
+</form>
+
+{% endblock %}

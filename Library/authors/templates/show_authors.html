@@ -1,0 +1,17 @@
+{% extends 'home/home.html' %}
+
+{% block content %}
+
+    <h2>Show authors</h2>
+
+    <ul>
+        {% for item in data %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+    <form class="book-form" action="{{ url_for('home') }}" method="GET">
+        <button type="submit">Go to main menu</button>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="text-align: center">
+    <h2 style="text-align: center">Main menu</h2>
+
+    <div class="menu-item">
+        <form action="{{ url_for('books.show_all_books') }}" method="GET">
+            <input type="submit" value="Show Books">
+        </form>
+    </div>
+    {% if session["user_id"] %}
+    <div class="menu-item">
+        <form action="{{ url_for('books.add_book') }}" method="GET">
+            <input type="submit" value="Add Book">
+        </form>
+    </div>
+
+    <div class="menu-item">
+        <form action="{{ url_for('books.update_book') }}" method="GET">
+            <input type="submit" value="Update Book">
+        </form>
+    </div>
+
+    <div class="menu-item">
+        <form action="{{ url_for('books.delete_book') }}" method="GET">
+            <input type="submit" value="Delete Book">
+        </form>
+    </div>
+    {% endif %}
+    <div class="menu-item">
+        <form action="{{ url_for('books.find_book') }}" method="GET">
+            <input type="submit" value="Find Book">
+        </form>
+    </div>
+
+    <div class="menu-item">
+        <form action="{{ url_for('authors.show_authors') }}" method="GET">
+            <input type="submit" value="Show Authors">
+        </form>
+    </div>
+    {% if session["user_id"] %}
+    <div class="menu-item">
+        <form action="{{ url_for('authors.add_author') }}" method="GET">
+            <input type="submit" value="Add Author">
+        </form>
+    </div>
+
+    <div class="menu-item">
+        <form action="{{ url_for('authors.delete_author') }}" method="GET">
+            <input type="submit" value="Delete Author">
+        </form>
+    </div>
+    {% endif %}
+    </div>
+{% endblock %}

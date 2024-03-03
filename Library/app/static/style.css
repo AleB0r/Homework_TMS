@@ -1,0 +1,72 @@
+footer {
+        background-color: #f8f9fa;
+        padding: 10px;
+      }
+
+footer h1 {
+        font-size: 36px;
+        color: #333;
+        margin-bottom: 10px;}
+
+.menu-item {
+        border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.menu-item form {
+    display: inline-block;
+        border-radius: 10px;
+}
+
+.menu-item input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+        border-radius: 10px;
+}
+
+.menu-item input[type="submit"]:hover {
+    background-color: #45a049;
+
+}
+.form-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.book-form {
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+.book-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.book-form input[type="text"],
+.book-form input[type="integer"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.book-form button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.book-form button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+
+
