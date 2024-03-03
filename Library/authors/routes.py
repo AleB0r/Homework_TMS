@@ -8,6 +8,7 @@ from flask import (
 from Library.app import db # Объект для работы с базой данных
 from Library.authors import authors_blueprint
 from Library.books.models import Author
+from Library.users.utils import login_required
 
 
 def main_menu():
@@ -26,6 +27,7 @@ def show_authors():
         )
 
 @authors_blueprint.route("/add_author", methods=["GET", "POST"])
+@login_required
 def add_author():
     if request.method == "GET":
         return render_template(
@@ -42,6 +44,7 @@ def add_author():
 
 
 @authors_blueprint.route("/delete_author", methods=["GET", "POST"])
+@login_required
 def delete_author():
     if request.method == "GET":
         authors = db.session.query(Author).all()
