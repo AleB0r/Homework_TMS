@@ -1,0 +1,17 @@
+{% extends 'home/home.html' %}
+
+{% block content %}
+
+    <h2>Add author</h2>
+
+    <form class="book-form" action="{{ url_for('authors.add_author') }}" method="POST">
+        <label for="author_name">Enter name:</label>
+        <input id="author_name" name="author_name" type="text">
+        <button type="submit">Add Author</button>
+    </form>
+
+    
+    <form class="book-form" action="{{ url_for('home') }}" method="GET">
+        <button type="submit">Go to main menu</button>
+    </form>
+{% endblock %}
