@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+My profile {% endblock %}
+
+{% block content %}
+<form class="form1" method="POST" action="{% url 'my_profile' %}">
+  {% csrf_token %}
+  {% for field in form %}
+  <div>
+    <label>{{ field.label_tag }}</label>
+    {{ field }}
+  </div>
+  <br>
+  {% endfor %}
+  <input type="submit" value="Save">
+</form>
+
+{% endblock %}

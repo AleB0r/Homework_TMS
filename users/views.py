@@ -19,6 +19,10 @@ class UserLoginView(LoginView):
     template_name = 'auth.html'
     form_class = LoginForm
 
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['is_login'] = True
+        return data
 
 class UserLogoutView(LogoutView):
     # Define the redirect URL after logout
