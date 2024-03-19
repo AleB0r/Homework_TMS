@@ -3,23 +3,26 @@
 {% block title %}
 Add laptop
 {% endblock %}
-{% block header %}
-        <h1>Laptop add</h1>
-        <a href="{% url 'laptops_list' %}" class="button">Laptops list</a>
-        {% endblock %}
+
 
 {% block content %}
 
-<form method="POST" action="{% url 'laptop_add' %}">
+<form class="form1" method="POST" action="{% url 'laptop_add' %}">
   {% csrf_token %}
-  <label for="name">Name:</label>
-  <input type="text" name="name" id="name" required>
+  <div>
+    <label>Title:</label>
+    {{ form.name }}
+  </div>
   <br>
-  <label for="manufacturer">Manufacturer:</label>
-  <input type="text" name="manufacturer" id="manufacturer" required>
-  <br>
-  <label for="price">Price:</label>
-  <input type="number" name="price" id="price" required>
+  <div>
+    <label>Manufacturer:</label>
+    {{ form.manufacturer}}
+  </div>
+   <br>
+  <div>
+    <label>Price:</label>
+    {{ form.price}}
+  </div>
   <br>
   <input type="submit" value="Add Laptop">
 </form>

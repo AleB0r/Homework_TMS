@@ -1,12 +1,12 @@
 from django.urls import path
 
 from laptops.views import (
-                    laptops_list,
-                    laptop_add,
+                    LaptopsListView,
+                    AddLaptopView
 
                            )
 
 urlpatterns = [
-    path("", laptops_list, name="laptops_list"),
-    path('add/', laptop_add, name='laptop_add'),
+    path("", LaptopsListView.as_view(), name="laptops_list"),
+    path('add/', AddLaptopView.as_view(), name='laptop_add'),
 ]

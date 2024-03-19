@@ -1,22 +1,17 @@
-from django.shortcuts import render, redirect
-from django.urls import reverse
 
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, ListView
+
+from laptops.forms import AddLaptopForm
 from laptops.models import Laptop
 
 
-# Create your views here.
+class LaptopsListView(ListView):
+    model = Laptop
+    template_name = 'laptops.html'
 
-def laptops_list(request):
-    laptops = Laptop.objects.all()
-    return render(request, 'laptops.html', {'laptops': laptops})
 
-def laptop_add(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        manufacturer = request.POST.get('manufacturer')
-        price = request.POST.get('price')
-        laptop = Laptop(name=name, manufacturer=manufacturer, price=price)
-        laptop.save()
-        return redirect('laptops_list')
-
-    return render(request, 'laptop_add.html')
+class AddLaptopView(CreateView):
+    form_class = AddLaptopForm
+    template_name = 'laptop_add.html'
+    success_url = reverse_lazy('laptops_list')
