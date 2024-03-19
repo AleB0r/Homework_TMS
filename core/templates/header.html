@@ -9,7 +9,7 @@
       <li class="nav-item active">
         <a class="nav-link" href="{% url 'laptops_list' %}">List<span class="sr-only">(current)</span></a>
       </li>
-
+      {% if request.user.is_authenticated %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'laptop_add' %}">Add laptop</a>
       </li>
@@ -21,9 +21,10 @@
           <a class="dropdown-item" href="#">Favorites</a>
           <a class="dropdown-item" href="#">Cart</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Edit account</a>
+          <a class="dropdown-item" href="{% url 'my_profile' %}">Edit account</a>
         </div>
       </li>
+      {% endif %}
     </ul>
     {% if request.user.is_authenticated %}
     <form class="form-row my-2 my-lg-0" action="{% url 'logout' %}" method="post">
