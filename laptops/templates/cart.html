@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Cart
+{% endblock %}
+
+{% block content %}
+<h1>Your Cart</h1>
+<ul>
+  {% for laptop in cart.laptops.all %}
+    <li><a href="{% url 'laptop_details' laptop.id %}">{{ laptop }}</a></li>
+  {% empty %}
+    <li>Your cart is empty.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

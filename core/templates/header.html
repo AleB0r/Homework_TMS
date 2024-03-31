@@ -18,24 +18,30 @@
           My account
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Favorites</a>
-          <a class="dropdown-item" href="#">Cart</a>
+          <a class="dropdown-item" href="{% url 'view_favorites' %}">Favorites</a>
+          <a class="dropdown-item" href="{% url 'view_cart' %}">Cart</a>
+          <a class="dropdown-item" href="{% url 'my_laptops' %}">My Laptops</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{% url 'my_profile' %}">Edit account</a>
         </div>
       </li>
       {% endif %}
     </ul>
+
     {% if request.user.is_authenticated %}
     <form class="form-row my-2 my-lg-0" action="{% url 'logout' %}" method="post">
       {% csrf_token %}
       <button class="btn btn-outline-success  my-sm-0" type="submit">Log out</button>
     </form>
     {% else %}
+    {% if is_login %}
+    {% else %}
     <form class="form-row my-2 my-lg-0" action="{% url 'login' %}?next={{ request.path }}" method="post">
       {% csrf_token %}
       <button class="btn btn-outline-success  my-sm-0" type="submit">Log in</button>
     </form>
     {% endif %}
+    {% endif %}
+
   </div>
 </nav>

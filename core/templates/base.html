@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>{% block title %}Title{% endblock %}</title>
 </head>
+
+{% block style %}
+
+    {% endblock %}
+
 <div class="header">
     {% include 'header.html' %}
 </div>
@@ -19,5 +24,13 @@
     {% block content %}
         <a>Hi</a>
     {% endblock %}
+
+
+
+{% block scripts %}
+
+    {% endblock %}
 </body>
+
+
 </html>

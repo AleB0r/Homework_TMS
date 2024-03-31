@@ -43,3 +43,4 @@ class UserChangeView(LoginRequiredMixin, FormView):
     def form_valid(self, form: ChangeForm) -> HttpResponse:
         form.save(commit=True)
         return super().form_valid(form)
+

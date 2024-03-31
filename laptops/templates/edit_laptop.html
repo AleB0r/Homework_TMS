@@ -1,13 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Add laptop
+Edit laptop
 {% endblock %}
 
-
 {% block content %}
-
-<form class="form1" method="POST" action="{% url 'laptop_add' %}">
+<form class="form1" method="POST" action="{% url 'laptop_edit' pk=laptop.pk %}">
   {% csrf_token %}
   <div>
     <label>Title:</label>
@@ -34,6 +32,6 @@ Add laptop
     {{ form.video_card }}
   </div>
   <br>
-  <input type="submit" value="Add Laptop">
+  <input type="submit" value="Save Laptop">
 </form>
 {% endblock %}

@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ laptop.name }} - Laptop Details
+{% endblock %}
+
+{% block style %}
+<style>
+.button-like {
+  border: 2px solid #8a8a8a;
+  background-color: transparent;
+  text-decoration: none;
+  padding: 1rem;
+  position: relative;
+  vertical-align: middle;
+  text-align: center;
+  display: inline-block;
+  border-radius: 3rem;
+  color: #8a8a8a;
+  transition: all ease 0.4s;
+}
+
+.button-like span {
+  margin-left: 0.5rem;
+}
+
+.button-like .fa,
+.button-like span {
+  transition: all ease 0.4s;
+
+}
+
+.button-like:focus {
+  background-color: transparent;
+}
+
+.button-like:focus .fa,
+.button-like:focus span {
+  color: #8a8a8a;
+}
+
+.button-like:hover {
+  border-color: #cc4b37;
+  background-color: transparent;
+}
+
+.button-like:hover .fa,
+.button-like:hover span {
+  color: #cc4b37;
+}
+
+.liked {
+  background-color: #cc4b37;
+  border-color: #cc4b37;
+}
+
+.liked .fa,
+.liked span {
+  color: #fefefe;
+}
+
+.liked:focus {
+  background-color: #cc4b37;
+}
+
+.liked:focus .fa,
+.liked:focus span {
+  color: #fefefe;
+}
+
+.liked:hover {
+  background-color: #cc4b37;
+  border-color: #cc4b37;
+}
+
+.liked:hover .fa,
+.liked:hover span {
+  color: #fefefe;
+}
+
+.gold .fa-heart {
+  color: gold;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>{{ laptop.name }}  <button class="button-like"><i class="fa fa-heart"></i>
+  <span>Like</span></button></h1>
+
+<p>Manufacturer: {{ laptop.manufacturer }}</p>
+<p>Processor: {{ laptop.processor }}</p>
+<p>Processor Details:</p>
+<ul>
+  <li>Brand: {{ laptop.processor.manufacturer }}</li>
+  <li>Number of Cores: {{ laptop.processor.cores }}</li>
+  <li>Base Frequency: {{ laptop.processor.frequency }}</li>
+</ul>
+<p>Video Card: {{ laptop.video_card }}</p>
+<p>Video Card Details:</p>
+<ul>
+  <li>Brand: {{ laptop.video_card.manufacturer }}</li>
+  <li>Memory: {{ laptop.video_card.memory }}</li>
+  <li>Core clock: {{ laptop.video_card.core_clock }}</li>
+</ul>
+<p>Price: ${{ laptop.price }}</p><form action="{% url 'add_to_cart' laptop.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit" style="background: none; border: none;">
+            <i class="fas fa-shopping-cart"></i>
+            <img width="48" height="48" src="https://img.icons8.com/material-outlined/48/shopping-cart--v2.png" alt="shopping-cart--v2" />
+        </button>
+    </form>{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  var button = document.querySelector(".button-like");
+  var laptopId = '{{ laptop.id }}';
+
+  // Проверяем, находится ли ноутбук в избранном у пользователя
+  checkIfLiked(laptopId, function(isLiked) {
+    if (isLiked) {
+      button.classList.add("liked"); // Добавляем класс "liked" к кнопке, если ноутбук находится в избранном
+    }
+  });
+
+  button.addEventListener("click", function() {
+    button.classList.toggle("liked");
+    if (button.classList.contains("liked")) {
+      addToFavorites(laptopId);
+    } else {
+      removeFromFavorites(laptopId);
+    }
+  });
+});
+
+function checkIfLiked(laptopId, callback) {
+  fetch("/favorite/" + laptopId + "/check/")
+    .then(response => response.json())
+    .then(data => {
+      callback(data.isLiked);
+    })
+    .catch(error => {
+      console.error("Произошла ошибка при проверке избранного", error);
+    });
+}
+
+function addToFavorites(laptopId) {
+  fetch("/favorite/" + laptopId + "/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ laptop_id: laptopId })
+  })
+    .then(response => {
+      if (response.ok) {
+        console.log("Товар успешно добавлен в избранное!");
+      } else {
+        console.error("Произошла ошибка при добавлении в избранное");
+      }
+    })
+    .catch(error => {
+      console.error("Произошла ошибка при добавлении в избранное", error);
+    });
+}
+
+function removeFromFavorites(laptopId) {
+  fetch("/favorite/" + laptopId + "/", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ laptop_id: laptopId })
+  })
+    .then(response => {
+      if (response.ok) {
+        console.log("Товар успешно удален из избранного!");
+      } else {
+        console.error("Произошла ошибка при удалении из избранного");
+      }
+    })
+    .catch(error => {
+      console.error("Произошла ошибка при удалении из избранного", error);
+    });
+}
+
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== "") {
+    var cookies = document.cookie.split(";");
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === name + "=") {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+</script>
+{% endblock %}
