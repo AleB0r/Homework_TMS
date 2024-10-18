@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Add laptop
+{% endblock %}
+
+
+{% block content %}
+
+<form class="form1" method="POST" action="{% url 'laptop_add' %}">
+  {% csrf_token %}
+  <div>
+    <label>Title:</label>
+    {{ form.name }}
+  </div>
+  <br>
+  <div>
+    <label>Manufacturer:</label>
+    {{ form.manufacturer }}
+  </div>
+  <br>
+  <div>
+    <label>Price:</label>
+    {{ form.price }}
+  </div>
+  <br>
+  <div>
+    <label>Processor:</label>
+    {{ form.processor }}
+  </div>
+  <br>
+  <div>
+    <label>Video Card:</label>
+    {{ form.video_card }}
+  </div>
+  <br>
+  <input type="submit" value="Add Laptop">
+</form>
+{% endblock %}

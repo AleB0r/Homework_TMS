@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Laptops {% endblock %}
+
+{% block content %}
+{% if messages %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: '{{ messages }}',
+        showConfirmButton: false,
+        timer: 3000
+      });
+    });
+  </script>
+{% endif %}
+     <ul>
+          {% for laptop in laptop_list %}
+          <li><a href="{% url 'laptop_details' laptop.id %}">{{ laptop }}</a></li>
+          {% endfor %}
+     </ul>
+{% endblock %}
+
+{% block scripts %}
+<script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+</script>
+{% endblock %}
